@@ -2,7 +2,7 @@
 
 
 
-### SQL Mantığı:
+## SQL Mantığı:
 
 sql injectionu anlamak için öncellikle sql yapısını anlamımız lazım.
 
@@ -12,7 +12,7 @@ sql Structured Query Language(Yapılandırılmış sorgu dili) diye açılımı 
 
 yukarıya örnek bir sql tablosu örneğini bıraktım.
 
-### SQL Sorgu Mantığı:
+## SQL Sorgu Mantığı:
 
  önceki başlıkta anlattığım tablo sistemi içinde bulunan verileri daha verimli kullanabilmek için özelliştirmiş sorgular yazarız. bu sorgular bahsettiğim gibi ingilizce cümleleri kullanarak çalışır örnek verirse yukarıdaki tablo esas alınarak içindeki bütün verileri çekmek için yazdığımız sorgu
  
@@ -25,14 +25,14 @@ yukarıya örnek bir sql tablosu örneğini bıraktım.
  ``` 
  SELECT 
  ```
- "SELECT" ibaresini tablodan hangi sutünleri çekmek istediğimizi belirtmek için kullanırız. ilk yazdığım sorgudaki " * " ibaresi bütün sutünları çekmek için kullanılır
+ >"SELECT" ibaresini tablodan hangi sutünleri çekmek istediğimizi belirtmek için kullanırız. ilk yazdığım sorgudaki " * " ibaresi bütün sutünları çekmek için kullanılır
  
   
  ``` 
  FROM 
  ```
  
- "FROM" ibaresi çekeceğimiz verilerin hangi tablodan geleceğini belirtir. Bizim örneğimizdeki "sqli_anlatim" tablo ismi benim bu yazıyı yazmak için kullandığım tablonun adı.
+ >"FROM" ibaresi çekeceğimiz verilerin hangi tablodan geleceğini belirtir. Bizim örneğimizdeki "sqli_anlatim" tablo ismi benim bu yazıyı yazmak için kullandığım tablonun adı.
  
  
  ``` 
@@ -41,11 +41,11 @@ yukarıya örnek bir sql tablosu örneğini bıraktım.
  
  hızlı bir şekilde yukarıdaki sorguyu açıklayalım. 
  
- "select kisi_adi, kisi_soyadi" ibaresi tablodan sadece kisi_adi ve kisi_soyadi sutünlerini çekmemizi sağlar.
+ >"select kisi_adi, kisi_soyadi" ibaresi tablodan sadece kisi_adi ve kisi_soyadi sutünlerini çekmemizi sağlar.
  "from sqli_anlatim" ibaresi verileri hangi tablodan çekeceğimizi belirtiler.
  
  
- ### SQL Injection Nedir?
+ ## SQL Injection Nedir?
  
 SQL Injection, kendi sorgularımızı SQL sorgularının içine karıştırarak manipüle etmeyi amaçlar. Bu sayede sitelerde, şirketlerde veya kurumlarda bulunan bütün veriler çalınabilir. Örneklendirmek gerekirse, [Reon Sağlık Hizmetleri](https://www.kvkk.gov.tr/Icerik/7523/Kamuoyu-Duyurusu-Veri-Ihlali-Bildirimi-Reon-Saglik-Hizmetleri-Ins-Tur-San-ve-Tic-A-S-Ozel-Aktif-Hastanesi-) şirketinin veritabanı sızdırılmış ve hastaların adı, soyadı, TC kimlik numarası gibi hassas bilgiler ifşa edilmiştir.
 
@@ -54,3 +54,11 @@ SQL Injection'un ayrıca bir kullanım alanı daha vardır ki bu da "login bypas
 
 not: sql injection ile backdoor açma işlemi bu yazıda anlatılmayacaktır..
 
+
+### union attack:
+
+union saldırısı var olan bir sql sorgunun içine 2. bir sorgu yazmayı amaçlar. bu sayede site kendi sorgusunu çalıştırırken bizde kendi istediğimiz 2. sorguyu yazabiliriz. 
+<br>
+peki bu nasıl yapılıyor ?
+<br>
+wildcard dedğimiz özel semboller vardır örneklendirmek gerekirse " ' ", " " ", " ) ", " ] ", " - ", ... bu wildcard sayesinde var olan sorgunun yapısını bozab
