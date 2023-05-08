@@ -51,5 +51,5 @@ SQL Injection, kendi sorgularımızı SQL sorgularının içine karıştırarak 
 
 sql injectionun ayrıca bir kullanım alanı daha vardır ki bu da "login bypass" dediğimiz giriş yapmamız gereken yerlerde kullanıcı adı ve şifre bilmeden admin veya istediğimiz kullanıcı adına giriş yapmamıza olanak sağlar.
 
-not: sql injection ile backdoor açma işlemi bu yazıda anlatılmayacaktır.
+not: sql injection ile backdoor açma işlemi bu yazıda anlatılmayacaktır..
 
