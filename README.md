@@ -57,8 +57,22 @@ not: sql injection ile backdoor açma işlemi bu yazıda anlatılmayacaktır..
 
 ### union attack:
 
-union saldırısı var olan bir sql sorgunun içine 2. bir sorgu yazmayı amaçlar. bu sayede site kendi sorgusunu çalıştırırken bizde kendi istediğimiz 2. sorguyu yazabiliriz. 
-<br>
+union saldırısı var olan bir sql sorgunun içine 2. bir sorgu yazmayı amaçlar. bu sayede site kendi sorgusunu çalıştırırken bizde kendi istediğimiz 2. sorguyu çalıştırabiliriz. 
+
+
 peki bu nasıl yapılıyor ?
-<br>
-wildcard dedğimiz özel semboller vardır örneklendirmek gerekirse " ' ", " " ", " ) ", " ] ", " - ", ... bu wildcard sayesinde var olan sorgunun yapısını bozab
+
+
+wildcard dedğimiz özel semboller vardır örneklendirmek gerekirse " ' ", " " ", " ) ", " ] ", " - ", ... bu wildcardlar sayesinde var olan sorgunun yapısını bozabilir ve kendi isteklerimiz üzere tekrardan yazabiliriz. Örneklendirmek gerekirse
+
+``` 
+SELECT posters, authors FROM product WHERE id = ' ' LIMIT 1 ;
+```
+>1. Aşama sitemiz tablolar ve sanatçıların bilgilerini getirir. istediğimiz sanatçının bilgilerini bulmak için id değerlerini kullanır.
+>2. Aşama bizim bu sorguda kontrol edebildiğimiz alan 2 tane tek tırnak arasındaki kısımdır.
+>3. Aşama id kısmına tek tırnak atarak sorgu yapısı bozulur
+```  
+SELECT posters, authors FROM product WHERE id = ' ' ' LIMIT 1 ;
+```
+>4. Aşama attığımız tek tırnak sayesinde sorgunun dışına çıktık ve yazdığımız kelimeler artık komut olarak algılanacak
+>5. Aşama 
