@@ -25,15 +25,7 @@ yukarıya örnek bir sql tablosu örneğini bıraktım.
  ``` 
  SELECT 
  ```
- >"SELECT" ibaresini tablodan hangi sutünleri çekmek istediğimizi belirtmek için kullanırız. ilk yazdığım sorgudaki " * " ibaresi bütün sutünları çekmek için kullanılır
- 
-  
- ``` 
- FROM 
- ```
- 
- >"FROM" ibaresi çekeceğimiz verilerin hangi tablodan geleceğini belirtir. Bizim örneğimizdeki "sqli_anlatim" tablo ismi benim bu yazıyı yazmak için kullandığım tablonun adı.
- 
+ >"SELECT" ibaresini tablodan hangi sutünleri çekmek istediğimizi belirtmek için kullanırız. "FROM" ibaresi ise çekeceğimiz verilerin hangi tablodan geleceğini belirtir. ilk yazdığım sorgudaki " * " ibaresi bütün sutünları çekmek için kullanılır
  
  ``` 
  SELECT kisi_adi, kisi_soyadi FROM sqli_anlatim;
@@ -44,6 +36,11 @@ yukarıya örnek bir sql tablosu örneğini bıraktım.
  >"select kisi_adi, kisi_soyadi" ibaresi tablodan sadece kisi_adi ve kisi_soyadi sutünlerini çekmemizi sağlar.
  "from sqli_anlatim" ibaresi verileri hangi tablodan çekeceğimizi belirtiler.
  
+ 
+``` 
+SELECT username,password FROM accounts WHERE username = 'User1' AND password = '123456' LIMIT 1;
+```
+ >Bu sorgu "accounts" adlı tablodan kullanıcı adının "user1" olduğu ve şifresinin "123456" olduğu satırı getirir. En sondaki "LIMIT 1" ibaresi ise tek satırda tek sorgu çalıştırmak için sınır koyar(sqli önlemek için). Bu tarz sorgular genellikle hesap giriş işlemleri için kullanılır. Eğer kullanıcı adı ve şifresi tabloda bulunursa "true" döndürür ve hesabımıza giriş yapabiliriz.
  
  ## SQL Injection Nedir?
  
@@ -63,16 +60,20 @@ union saldırısı var olan bir sql sorgunun içine 2. bir sorgu yazmayı amaçl
 peki bu nasıl yapılıyor ?
 
 
-wildcard dedğimiz özel semboller vardır örneklendirmek gerekirse " ' ", " " ", " ) ", " ] ", " - ", ... bu wildcardlar sayesinde var olan sorgunun yapısını bozabilir ve kendi isteklerimiz üzere tekrardan yazabiliriz. Örneklendirmek gerekirse
+wildcard dedğimiz özel semboller vardır örneklendirmek gerekirse " ' ", " " ", " ) ", " ] ", " - " gibi wildcardlar sayesinde var olan sorgunun yapısını bozabilir ve kendi isteklerimiz üzere tekrardan şekillendirebiliriz. Örneklendirmek gerekirse
 
 ``` 
 SELECT posters, authors FROM product WHERE id = ' ' LIMIT 1 ;
 ```
->1. Aşama sitemiz tablolar ve sanatçıların bilgilerini getirir. istediğimiz sanatçının bilgilerini bulmak için id değerlerini kullanır.
->2. Aşama bizim bu sorguda kontrol edebildiğimiz alan 2 tane tek tırnak arasındaki kısımdır.
->3. Aşama id kısmına tek tırnak atarak sorgu yapısı bozulur
+>1. Aşama: sitemiz tablolar ve sanatçıların bilgilerini getirir. istediğimiz sanatçının bilgilerini bulmak için id değerlerini kullanır.
+>2. Aşama: bizim bu sorguda kontrol edebildiğimiz alan 2 tane tek tırnak arasındaki kısımdır.
+>3. Aşama: id kısmına tek tırnak atarak sorgu yapısı bozulur
 ```  
 SELECT posters, authors FROM product WHERE id = ' ' ' LIMIT 1 ;
 ```
->4. Aşama attığımız tek tırnak sayesinde sorgunun dışına çıktık ve yazdığımız kelimeler artık komut olarak algılanacak
->5. Aşama 
+>4. Aşama: attığımız tek tırnak sayesinde sorgunun dışına çıktık ve yazdığımız kelimeler artık komut olarak algılanacak(eğer yanlış bir şeyler yazarsanız sorgu error verir (error-based sql injection))
+>5. Aşama: attığımız tek tırnak sonrasına "UNION SLECT NULL,NULL --" ibaresi eklenir
+``` 
+SELECT posters, authors FROM product WHERE id = ' 'UNION SLECT NULL,NULL --  ' LIMIT 1 ;
+```
+>
