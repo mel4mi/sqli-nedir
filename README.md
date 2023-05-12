@@ -96,26 +96,22 @@ select sleep(10) from users where....
 ifadesini var olan sorgunun sonuna yazar ve normalde dönecek olan cevabın 10 saniye daha geç gelmesini bekler. Eğer başarılı olursa sql injection vardır.
 
 
-### union attack:
-
-union saldırısı var olan bir sql sorgunun içine 2. bir sorgu yazmayı amaçlar. bu sayede site kendi sorgusunu çalıştırırken bizde kendi istediğimiz 2. sorguyu çalıştırabiliriz. 
 
 
-peki bu nasıl yapılıyor ?
 
+## Örnek SQL Injection:
 
-``` 
-SELECT posters, authors FROM product WHERE id = ' ' LIMIT 1 ;
-```
->1. Aşama: sitemiz tablolar ve sanatçıların bilgilerini getirir. istediğimiz sanatçının bilgilerini bulmak için id değerlerini kullanır.
->2. Aşama: bizim bu sorguda kontrol edebildiğimiz alan 2 tane tek tırnak arasındaki kısımdır.
->3. Aşama: id kısmına tek tırnak atarak sorgu yapısı bozulur
-```  
-SELECT posters, authors FROM product WHERE id = ' ' ' LIMIT 1 ;
-```
->4. Aşama: attığımız tek tırnak sayesinde sorgunun dışına çıktık ve yazdığımız kelimeler artık komut olarak algılanacak(eğer yanlış bir şeyler yazarsanız sorgu error verir (error-based sql injection))
->5. Aşama: attığımız tek tırnak sonrasına "UNION SLECT NULL,NULL --" ibaresi eklenir
-``` 
-SELECT posters, authors FROM product WHERE id = ' 'UNION SLECT NULL,NULL --  ' LIMIT 1 ;
-```
->
+Hedef Sitemiz : [vulnweb](http://testphp.vulnweb.com/listproducts.php?cat=1)
+
+Aşamaları sıra ile sizde deneyerek sql injection yapmayı deneyebilirsiniz.
+
+1) Test alanını belirlemek:
+![error based](/resimler/phpvuln.png)
+"?cat=1" parametresi bana şüpheli geldi ve burada sql injection testleri yapmaya karar verdim.
+2) sql injection zaafiyetinin tespiti:
+![tek_tirnak](/resimler/tek_tirnak.png)
+Tek Tırnak atarak sorguyu bozmaya çalışıyorum ve başarılı oluyorum.
+![error based](/resimler/error_based.png)
+3) Şimdi kolon sayısını bulmam lazım. Bunun Sebebi sql dili c dilinden üretilmiştir ve c matrix hesabı yaparken sutün sayıları eşit olmak zorundadır. Bu yüzden sırayla sutün sayısı arttırıyorum. not: ile 1,2,... şeklinde arttırmak yerine NULL,NULL,... şeklinde de arttırablirsiniz. not2: sitedeki diğer ilanları görmemek ve rahat çalışabilmek için sorgunun başındaki "?cat=1" ifadesindeki 1 değerini 99999 yaptım(yani olmayan bir id talep ettim).
+![729](/resimler/729.png)
+4)
