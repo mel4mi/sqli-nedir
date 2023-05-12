@@ -34,7 +34,10 @@ SELECT username,password FROM accounts WHERE username = 'User1' AND password = '
 ``` 
 SELECT * FROM products WHERE category = 'Gifts' 
 ```
->Bu tarz sorgular genellikle alışveriş siteleri veya blog sitelerinde bulunur. 'Gifts' yazan kısmı kullanıcıdan input olarak alır ve kullanıcının aradığı kelime ile ilgili ilanlar listelenir(örnek: Alışveriş sitelerinde arama kutuları)
+>Bu tarz sorgular genellikle alışveriş siteleri veya blog sitelerinde bulunur. 'Gifts' yazan kısmı kullanıcıdan input olarak alır ve kullanıcının aradığı kelime ile ilgili ilanlar listelenir(örnek: Alışveriş sitelerinde arama kutuları).
+
+
+## Sql İnjection Tespiti:
 
 ### union attack:
 
