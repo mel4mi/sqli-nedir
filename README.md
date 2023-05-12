@@ -45,7 +45,7 @@ Bu sql injection modelinde sitede çalışan sql sorgusunu bozarak sitenin bize 
 
 Örneklendirmek gerekirse:
 
-![error based](/resimler/error_based.png)
+![error based](/resimler/phpvuln.png)
 
 [PhpVuln](http://testphp.vulnweb.com/listproducts.php?cat=1) sitesinde kategori listelemek için bir parametre alıyor. Bunu " ?cat=1 " ibaresinden anlayabiliriz. cat kelimesi de category kelimesinin kısaltırması olduğunu tahmin ediyorum.
 
