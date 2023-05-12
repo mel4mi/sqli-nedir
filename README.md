@@ -105,13 +105,14 @@ Hedef Sitemiz : [vulnweb](http://testphp.vulnweb.com/listproducts.php?cat=1)
 
 Aşamaları sıra ile sizde deneyerek sql injection yapmayı deneyebilirsiniz.
 
-1) Test alanını belirlemek:
-![error based](/resimler/phpvuln.png)
-"?cat=1" parametresi bana şüpheli geldi ve burada sql injection testleri yapmaya karar verdim.
-2) sql injection zaafiyetinin tespiti:
-![tek_tirnak](/resimler/tek_tirnak.png)
-Tek Tırnak atarak sorguyu bozmaya çalışıyorum ve başarılı oluyorum.
-![error based](/resimler/error_based.png)
-3) Şimdi kolon sayısını bulmam lazım. Bunun Sebebi sql dili c dilinden üretilmiştir ve c matrix hesabı yaparken sutün sayıları eşit olmak zorundadır. Bu yüzden sırayla sutün sayısı arttırıyorum. not: ile 1,2,... şeklinde arttırmak yerine NULL,NULL,... şeklinde de arttırablirsiniz. not2: sitedeki diğer ilanları görmemek ve rahat çalışabilmek için sorgunun başındaki "?cat=1" ifadesindeki 1 değerini 99999 yaptım(yani olmayan bir id talep ettim).
-![729](/resimler/729.png)
+1) Test alanını belirlemek:<br>
+![error based](/resimler/phpvuln.png)<br>
+"?cat=1" parametresi bana şüpheli geldi ve burada sql injection testleri yapmaya karar verdim.<br>
+2) sql injection zaafiyetinin tespiti:<br>
+![tek_tirnak](/resimler/tek_tirnak.png)<br>
+Tek Tırnak atarak sorguyu bozmaya çalışıyorum ve başarılı oluyorum.<br>
+![error based](/resimler/error_based.png)<br>
+3) Şimdi kolon sayısını bulmam lazım. Bunun Sebebi sql dili c dilinden üretilmiştir ve c matrix hesabı yaparken sutün sayıları eşit olmak zorundadır. Bu yüzden sırayla sutün sayısı arttırıyorum. not: ile 1,2,... şeklinde arttırmak yerine NULL,NULL,... şeklinde de arttırablirsiniz. not2: sitedeki diğer ilanları görmemek ve rahat çalışabilmek için sorgunun başındaki "?cat=1" ifadesindeki 1 değerini 99999 yaptım(yani olmayan bir id talep ettim).<br>
+![729](/resimler/729.png)<br>
+Bu sayede olmayan bir ilan geldi ve 7, 2, 9, 11 sayıları geldi bu sayılar bu sitedeki içeriklerin hangi kolondan geldiğini beliritiyor.url de belirtilen sayılar yerine artık sql fonksiyonları yazabiliriz<br>
 4)
