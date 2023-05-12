@@ -39,6 +39,43 @@ SELECT * FROM products WHERE category = 'Gifts'
 
 ## Sql İnjection Tespiti:
 
+### Error Based Sqli:
+
+Bu sql injection modelinde sitede çalışan sql sorgusunu bozarak sitenin bize hata mesajı göstermesi amaçlanmaktadır. Bu sayede hacker sql sorgusuna müdahele edebildiğini ve yazdığı payloadın hiç bir filtrelemeye takılmadan çalıştığını anlar.
+
+Örneklendirmek gerekirse:
+
+![error based](/resimler/error_based.png)
+
+[PhpVuln](http://testphp.vulnweb.com/listproducts.php?cat=1) sitesinde kategori listelemek için bir parametre alıyor. Bunu " ?cat=1 " ibaresinden anlayabiliriz. cat kelimesi de category kelimesinin kısaltırması olduğunu tahmin ediyorum.
+
+![tek_tirnak](/resimler/tek_tirnak.png)
+
+Sitedeki url nin sonuna bir tane tek tırnak atarak sitede çalışan sorguyu bozmayı deneyeceğim.
+
+![error based](/resimler/error_based.png)
+
+ve site bize sql hatası verdi. Bu sonuca bakarsak bu sitede sql injection var diyebiliriz.
+
+sonuç olarak arkadaki sorguyu şekillendirmeye çalışırsam şöyle olurdu
+
+```
+SELECT Productname, Description, Authors, ... FROM Listing(tamamen sallama tablo adını öğrenmek için başka metodlar kullanmalıyız) WHERE category = '1'
+```
+
+Error Based Sql İnjection için bazı wildcardlar:
+``` 
+
+'
+"
+)
+]
+--
+
+```
+
+
+
 ### union attack:
 
 union saldırısı var olan bir sql sorgunun içine 2. bir sorgu yazmayı amaçlar. bu sayede site kendi sorgusunu çalıştırırken bizde kendi istediğimiz 2. sorguyu çalıştırabiliriz. 
@@ -46,8 +83,6 @@ union saldırısı var olan bir sql sorgunun içine 2. bir sorgu yazmayı amaçl
 
 peki bu nasıl yapılıyor ?
 
-
-wildcard dedğimiz özel semboller vardır örneklendirmek gerekirse " ' ", " " ", " ) ", " ] ", " - " gibi wildcardlar sayesinde var olan sorgunun yapısını bozabilir ve kendi isteklerimiz üzere tekrardan şekillendirebiliriz. Örneklendirmek gerekirse
 
 ``` 
 SELECT posters, authors FROM product WHERE id = ' ' LIMIT 1 ;
