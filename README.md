@@ -114,16 +114,18 @@ http://testphp.vulnweb.com/listproducts.php?cat=1
 2) sql injection zaafiyetinin tespiti:<br>
 ![tek_tirnak](/resimler/tek_tirnak.png)<br>
 Tek Tırnak atarak sorguyu bozmaya çalışıyorum ve başarılı oluyorum.<br>
-![error based](/resimler/error_based.png)<br>
 ```
 http://testphp.vulnweb.com/listproducts.php?cat=1'
 ```
+![error based](/resimler/error_based.png)<br>
+
 3) Şimdi kolon sayısını bulmamız lazım. Bunun Sebebi sql dili c dilinden üretilmiştir ve c dili matrix hesabı yaparken sutün sayıları eşit olmak zorundadır. Bu yüzden sırayla sutün sayısı arttırıyorum. not: ile 1,2,... şeklinde arttırmak yerine NULL,NULL,... şeklinde de arttırablirsiniz. not2: sitedeki diğer ilanları görmemek ve rahat çalışabilmek için sorgunun başındaki "?cat=1" ifadesindeki 1 değerini 99999 yaptım(yani olmayan bir id talep ettim).<br>
-![729](/resimler/729.png)<br>
-Bu sayede olmayan bir ilan geldi ve 7, 2, 9, 11 sayıları geldi bu sayılar bu sitedeki içeriklerin hangi kolondan geldiğini beliritiyor.url de belirtilen sayılar yerine artık sql fonksiyonları yazabiliriz<br>
 ```
 http://testphp.vulnweb.com/listproducts.php?cat=999999 UNION SELECT 1,2,3,4,5,6,7,8,9,10,11
 ```
+![729](/resimler/729.png)<br>
+Bu sayede olmayan bir ilan geldi ve 7, 2, 9, 11 sayıları geldi bu sayılar bu sitedeki içeriklerin hangi kolondan geldiğini beliritiyor.url de belirtilen sayılar yerine artık sql fonksiyonları yazabiliriz<br>
+
 4) Kolon sayısını bulduktan sonra information_schema içindeki diğer tabloların bilgilerine erişeceğiz. information_schema'ı basitçe anlatmak gerekirse sistemdeki databaselerin bilgilerini tutan genel bir databasedir. bizde bu database sömüreceğiz.
 ```
 http://testphp.vulnweb.com/listproducts.php?cat=999999 UNION SELECT 1,2,3,4,5,6,7,8,9,10,11 FROM information_schema.tables WHERE table_name = 'users'
