@@ -4,53 +4,37 @@
 
 ## SQL Mantığı:
 
-sql injectionu anlamak için öncellikle sql yapısını anlamımız lazım.
-
-sql Structured Query Language(Yapılandırılmış sorgu dili) diye açılımı olan bir yazılım dilidir. aslına bakarsanız sql daha öncesine bakıldığında açılımı Structured English Query Language(Yapılandırılmış ingilizce sorgu dili) diye geçerdi. Bunun sebebi sql dediğimiz yazılım dilinin büyük bir çoğunluğu matematik operatörlerinden ziyade ingilizce sorgu yazma üzerine tasarlanmasıyla alakalıydı. sorgu kelimesini açmak gerekirse sql dili bildiğimiz satır ve sutündan oluşan bir tablo tutar.
-
 ![basit tablo](/resimler/basit%20tablo.png)
 
-yukarıya örnek bir sql tablosu örneğini bıraktım.
+sql injectionu anlamak için öncellikle sql yapısını anlamımız lazım.
 
-## SQL Sorgu Mantığı:
+sql Structured Query Language(Yapılandırılmış sorgu dili) diye açılımı olan fakat tarihin biraz daha öncesine baktığımızda açılımı Structured English Query Language(Yapılandırılmış ingilizce sorgu dili) diye geçen yazılım dilidir. Bunun sebebi sql dediğimiz yazılım dilinin büyük bir çoğunluğun matematik operatörlerinden ziyade ingilizce sorgu yazma üzerine tasarlanmasıyla alakalıydı. sorgu kelimesini açmak gerekirse sql dili bildiğimiz satır ve sutündan oluşan bir tablo tutar. İstediğimiz satır ve sutündaki herhangi bir veriyi çekmek için abartılı ve karışık kodlar yazmak yerine ingilizce cümleler yazarız
 
- önceki başlıkta anlattığım tablo sistemi içinde bulunan verileri daha verimli kullanabilmek için özelliştirmiş sorgular yazarız. bu sorgular bahsettiğim gibi ingilizce cümleleri kullanarak çalışır örnek verirse yukarıdaki tablo esas alınarak içindeki bütün verileri çekmek için yazdığımız sorgu
- 
+örn: "Kullanıcılar tablosundaki kişi adlarını ve soyadlarını bana getirir misin" Cümlesinin sql dilindeki yazılışı:
  ```
-  SELECT * FROM sqli_anlatim;
+ SELECT kisi_adi, kisi_soyadi FROM Kullanıcılar;
  ```
- 
- yazdığımız sorguyu inceleyim;
- 
- ``` 
- SELECT 
- ```
- >"SELECT" ibaresini tablodan hangi sutünleri çekmek istediğimizi belirtmek için kullanırız. "FROM" ibaresi ise çekeceğimiz verilerin hangi tablodan geleceğini belirtir. ilk yazdığım sorgudaki " * " ibaresi bütün sutünları çekmek için kullanılır
- 
- ``` 
- SELECT kisi_adi, kisi_soyadi FROM sqli_anlatim;
- ```
- 
- hızlı bir şekilde yukarıdaki sorguyu açıklayalım. 
- 
- >"select kisi_adi, kisi_soyadi" ibaresi tablodan sadece kisi_adi ve kisi_soyadi sutünlerini çekmemizi sağlar.
- "from sqli_anlatim" ibaresi verileri hangi tablodan çekeceğimizi belirtiler.
- 
- 
+Select ibaresi istediğimiz sutünları getirmek için kullanırken from ibaresi bu sutünların hangi tablodan geleceğini belirtir.
+bu anlattığım en basit sql sorgu mantığıdır daha fazlası için lütfen sql dilini araştırın.
+
+
+## SQL Injection Nedir?
+
+SQL Injection, kendi sorgularımızı hedef sitede çalışan SQL sorgularının içine karıştırarak manipüle etmeyi amaçlar. Bu sayede sitelerde, şirketlerde veya kurumlarda bulunan bütün veriler ifşalanabilir. Örneklendirmek gerekirse, [Reon Sağlık Hizmetleri](https://www.kvkk.gov.tr/Icerik/7523/Kamuoyu-Duyurusu-Veri-Ihlali-Bildirimi-Reon-Saglik-Hizmetleri-Ins-Tur-San-ve-Tic-A-S-Ozel-Aktif-Hastanesi-) şirketinin veritabanı sızdırılmış ve hastaların adı, soyadı, TC kimlik numarası gibi hassas bilgiler ifşa edilmiştir. Şirketlerin ve kurumların elindeki veritabanlarının sızıldırması hem o kurum için hemde verisi bulunan kullancılar için büyük bir tehlikedir bu yüzden sql injection iyi anlanması ve tedbirlerinin alınması gerekmektedir.
+
+SQL Injection'a geçmeden önce sitelerin hangi tarz sorgular çalıştırdığını anlamamız gerekli çünkü bir sızma testinde kaynak kodları göremeyeceğimiz için sitenin bize verdiği tepkilerine göre arkada çalışan sorguyu tahmin etmemiz gerekir. 
+
+Örnek Sorgu 1 :
 ``` 
 SELECT username,password FROM accounts WHERE username = 'User1' AND password = '123456' LIMIT 1;
 ```
- >Bu sorgu "accounts" adlı tablodan kullanıcı adının "user1" olduğu ve şifresinin "123456" olduğu satırı getirir. En sondaki "LIMIT 1" ibaresi ise tek satırda tek sorgu çalıştırmak için sınır koyar(sqli önlemek için). Bu tarz sorgular genellikle hesap giriş işlemleri için kullanılır. Eğer kullanıcı adı ve şifresi tabloda bulunursa "true" döndürür ve hesabımıza giriş yapabiliriz.
+ >Bu sorgu "accounts" adlı tablodan kullanıcı adının "user1" olduğu ve şifresinin "123456" olduğu satırı getirir. En sondaki "LIMIT 1" ibaresi ise tek satırda tek sorgu çalıştırmak için sınır koyar(sqli önlemek için). Bu tarz sorgular genellikle hesap giriş işlemleri için kullanılır. Eğer kullanıcı adı ve şifresi tabloda bulunursa "true" döndürür ve hesabımıza giriş yaparız.
  
- ## SQL Injection Nedir?
- 
-SQL Injection, kendi sorgularımızı SQL sorgularının içine karıştırarak manipüle etmeyi amaçlar. Bu sayede sitelerde, şirketlerde veya kurumlarda bulunan bütün veriler çalınabilir. Örneklendirmek gerekirse, [Reon Sağlık Hizmetleri](https://www.kvkk.gov.tr/Icerik/7523/Kamuoyu-Duyurusu-Veri-Ihlali-Bildirimi-Reon-Saglik-Hizmetleri-Ins-Tur-San-ve-Tic-A-S-Ozel-Aktif-Hastanesi-) şirketinin veritabanı sızdırılmış ve hastaların adı, soyadı, TC kimlik numarası gibi hassas bilgiler ifşa edilmiştir.
-
-SQL Injection'un ayrıca bir kullanım alanı daha vardır ki bu da "login bypass" dediğimiz giriş yapmamız gereken yerlerde kullanıcı adı ve şifre bilmeden admin veya istediğimiz kullanıcı adına giriş yapmamıza olanak sağlar.
-
-
-not: sql injection ile backdoor açma işlemi bu yazıda anlatılmayacaktır..
-
+Örnek Sorgu 2 :
+``` 
+SELECT * FROM products WHERE category = 'Gifts' 
+```
+>Bu tarz sorgular genellikle alışveriş siteleri veya blog sitelerinde bulunur. 'Gifts' yazan kısmı kullanıcıdan input olarak alır ve kullanıcının aradığı kelime ile ilgili ilanlar listelenir(örnek: Alışveriş sitelerinde arama kutuları)
 
 ### union attack:
 
