@@ -60,20 +60,40 @@ ve site bize sql hatası verdi. Bu sonuca bakarsak bu sitede sql injection var d
 sonuç olarak arkadaki sorguyu şekillendirmeye çalışırsam şöyle olurdu
 
 ```
-SELECT Productname, Description, Authors, ... FROM Listing(tamamen sallama tablo adını öğrenmek için başka metodlar kullanmalıyız) WHERE category = '1'
+SELECT Productname, Description, Authors, ... FROM Listing WHERE category = '1'
 ```
+>yukarıda yazdığım kolon adları ve tablo ismi tamamen tahmindir. Tablo adını ve kolonları öğrenmek için başka metodlar kullanmalıyız.
+
 
 Error Based Sql İnjection için bazı wildcardlar:
 ``` 
 
 '
 "
-)
-]
+')
+")
+`)
+'))
+"))
+`))
 --
 
 ```
 
+### Blind Sqli:
+
+Kör injection, yazdığımız sorguların bize herhangi bir dönüşünü göremediğimiz sorgulardır. genellikle site bize doğru sorgu yazarsak true yanlış kod yazarsak false döndürür. Hacker ise " % " operantını kullanarak kelimeleri tahmin etmeye çalışır. örneklendirmek gerekirse bir tabloda Kullanıcı adlarını çekmeye çalışalım. Bize true döndüren sorgunun sonuna "WHERE username LIKE 'a%'" deriz ve a ile başlayan kullanıcı adı varsa true döndürür eğer yoksa a yerine 29 harfi teker teker dener. Bir kullanıcı adının tamamı bu şekilde bulunur. Biraz yorucu gibi gözüksede otomatik toollarla bir hayli kolaylaşıyor.
+
+
+
+
+
+### Time Based Sqli:
+Zaman tabanlı sql injection, Girdiğimiz sorgu sonucunda ne bir hata çıktısı ne de bir true false döndürdüğü durumları kapsar. Hacker yazdığı kodun çalışıp çalışmadığını anlamak için kodunun sonuna bekleme komutu koyar ve ona dönen cevabın kaç saniyede döndüğüne göre sql açığını tespit eder. Örneklendirmek gerekirse
+``` 
+select sleep(10) from users where....
+```
+ifadesini var olan sorgunun sonuna yazar ve normalde dönecek olan cevabın 10 saniye daha geç gelmesini bekler. Eğer başarılı olursa sql injection vardır.
 
 
 ### union attack:
